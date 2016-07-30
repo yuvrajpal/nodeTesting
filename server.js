@@ -6,6 +6,8 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 // for accessing the User model
 var User = require('./models/user');
+var ejs = require('ejs');
+var ejsMateEngin = require('ejs-mate'); 
 
 
 
@@ -24,11 +26,13 @@ var app = express();
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.engine('ejs', ejsMateEngin);
+app.set('view engine', 'ejs');
 
 
 
 app.get('/', function(req, res){
-	res.json("Created the Server");
+	res.render('home');
 });
 
 
