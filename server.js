@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var flash = require('express-flash');
+
+var secret = require('./config/secret');
 // for accessing the User model
 var User = require('./models/user');
 var ejs = require('ejs');
@@ -15,7 +17,7 @@ var ejsMateEngin = require('ejs-mate');
 
 
 
-mongoose.connect('mongodb://root:root@ds031835.mlab.com:31835/nodetesting', function(err){
+mongoose.connect(secret.database, function(err){
 	if(err){
 		console.log(err);
 	} else {
@@ -39,7 +41,7 @@ app.use(cookieParser());
 app.use(session({
 	resave: true,
 	saveUninitialized: true,
-	secret: 'yuvraj@!#@#@#@'
+	secret: secret.secretkey
 }));
 app.use(flash());
 
@@ -50,7 +52,7 @@ app.use(mainRoutes);
 app.use(userRoutes);
 
 
-app.listen(7777, function(err){
+app.listen(secret.port, function(err){
 	if(err) throw err;
-	console.log("Server is running at localhost:7777");
+	console.log("Server is running at localhost: "+ secret.port);
 })
